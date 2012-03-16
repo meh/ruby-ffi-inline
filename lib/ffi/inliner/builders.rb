@@ -1,6 +1,6 @@
 module FFI; module Inliner
 
-Signature = ::Struct.new(:return, :name, :arguments, :arity)
+Signature = ::Struct.new(:return, :name, :arguments, :arity, :blocking)
 
 class Builder
   @builders = []
@@ -84,7 +84,7 @@ class Builder
       builder.signatures.each {|s|
         attach_function s.name, s.arguments.compact.map {|a|
           builder.to_ffi_type(a, self)
-        }, builder.to_ffi_type(s.return, self)
+        }, builder.to_ffi_type(s.return, self), :blocking=>s.blocking
       }
     }
 

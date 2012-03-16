@@ -232,6 +232,27 @@ EOC
     }.should raise_error(/compile error/)
   end
 
+  it 'should respect blocking flag' do
+    module Foo
+      inline do |builder|
+        builder.function %{
+          void blocking_function () {
+              #if defined(_WIN32)
+                  Sleep(1000);
+              #else
+                  sleep(1);
+              #endif
+          }
+        }, :blocking=>true
+      end
+    end
+
+    st = Time.now
+    Array.new(4){ Thread.new{ Foo.blocking_function } }.map(&:join)
+
+    (Time.now - st).should < 4
+  end
+
   describe 'GXX compiler' do
     it 'should compile and link a shim C library that encapsulates C++ code' do
       module Foo

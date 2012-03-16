@@ -16,6 +16,7 @@ Builder.define Builder[:c], :cplusplus, :cxx, :cpp, 'c++' do
     if signature
       parsed[:arguments] = signature[:arguments] if signature[:arguments]
       parsed[:return]    = signature[:return]    if signature[:return]
+      parsed[:blocking]  = signature[:blocking]  if signature[:blocking]
     end
 
     @signatures << parsed
