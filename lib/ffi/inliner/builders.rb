@@ -84,7 +84,7 @@ class Builder
       builder.signatures.each {|s|
         attach_function s.name, s.arguments.compact.map {|a|
           builder.to_ffi_type(a, self)
-        }, builder.to_ffi_type(s.return, self), :blocking=>s.blocking
+        }, builder.to_ffi_type(s.return, self), :blocking => s.blocking
       }
     }
 
