@@ -12,9 +12,9 @@ Compiler.define :gcc do
     return output if File.exists?(output)
 
     unless system(if RbConfig::CONFIG['target_os'] =~ /mswin|mingw/
-      "sh -c '#{ldshared} -o #{output.shellescape} #{input.shellescape} #{libs}' 2>#{log.shellescape}"
+      "sh -c '#{ldshared} #{ENV['CFLAGS']} -o #{output.shellescape} #{input.shellescape} #{libs}' 2>#{log.shellescape}"
     else
-      "#{ldshared} -o #{output.shellescape} #{input.shellescape} #{libs} 2>#{log.shellescape}"
+      "#{ldshared} #{ENV['CFLAGS']} -o #{output.shellescape} #{input.shellescape} #{libs} 2>#{log.shellescape}"
     end)
       raise CompilationError.new(log)
     end
@@ -43,9 +43,9 @@ Compiler.define :gcc do
 
   def ldshared
     if RbConfig::CONFIG['target_os'] =~ /darwin/
-      "gcc -dynamic -bundle -fPIC #{options}"
+      "gcc -dynamic -bundle -fPIC #{options} #{ENV['LDFLAGS']}"
     else
-      "gcc -shared -fPIC #{options}"
+      "gcc -shared -fPIC #{options} #{ENV['LDFLAGS']}"
     end
   end
 

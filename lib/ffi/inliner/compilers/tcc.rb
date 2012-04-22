@@ -12,9 +12,9 @@ Compiler.define :tcc do
     return output if File.exists?(output)
 
     unless system(if RbConfig::CONFIG['target_os'] =~ /mswin|mingw/
-      "sh -c '#{ldshared} #{libs} -o #{output.shellescape} #{input.shellescape}' 2>#{log.shellescape}"
+      "sh -c '#{ldshared} #{ENV['CFLAGS']} #{libs} -o #{output.shellescape} #{input.shellescape}' 2>#{log.shellescape}"
     else
-      "#{ldshared} #{libs} -o #{output.shellescape} #{input.shellescape} 2>#{log.shellescape}"
+      "#{ldshared} #{ENV['CFLAGS']} #{libs} -o #{output.shellescape} #{input.shellescape} 2>#{log.shellescape}"
     end)
       raise CompilationError.new(log)
     end
@@ -43,9 +43,9 @@ Compiler.define :tcc do
 
   def ldshared
     if RbConfig::CONFIG['target_os'] =~ /mswin|mingw/
-      "tcc -rdynamic -shared -fPIC #{options}"
+      "tcc -rdynamic -shared -fPIC #{options} #{ENV['LDFLAGS']}"
     else
-      "tcc -shared #{options}"
+      "tcc -shared #{options} #{ENV['LDFLAGS']}"
     end
   end
 
