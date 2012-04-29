@@ -1,8 +1,8 @@
-Kernel.load 'lib/ffi/inliner/version.rb'
+Kernel.load 'lib/ffi/inline/version.rb'
 
 Gem::Specification.new {|s|
   s.name         = 'ffi-inline'
-  s.version      = FFI::Inliner::Version
+  s.version      = FFI::Inline::VERSION
   s.authors      = 'meh.'
   s.email        = 'meh@paranoici.org'
   s.homepage     = 'http://github.com/meh/ruby-ffi-inline'
