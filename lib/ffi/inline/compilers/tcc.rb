@@ -1,8 +1,18 @@
-module FFI; module Inliner
+#--
+#          DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+#                  Version 2, December 2004
+#
+#          DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+# TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION 
+#
+# 0. You just DO WHAT THE FUCK YOU WANT TO.
+#++
 
-Compiler.define :gcc do
+module FFI; module Inline
+
+Compiler.define :tcc do
   def exists?
-    `gcc -v 2>&1'`; $?.success?
+    `tcc -v 2>&1'`; $?.success?
   end
 
   def compile (code, libraries = [])
@@ -12,9 +22,9 @@ Compiler.define :gcc do
     return output if File.exists?(output)
 
     cmd = if RbConfig::CONFIG['target_os'] =~ /mswin|mingw/
-      "sh -c '#{ldshared} #{ENV['CFLAGS']} -o #{output.shellescape} #{input.shellescape} #{libs}' 2>>#{log.shellescape}"
+      "sh -c '#{ldshared} #{ENV['CFLAGS']} #{libs} -o #{output.shellescape} #{input.shellescape}' 2>>#{log.shellescape}"
     else
-      "#{ldshared} #{ENV['CFLAGS']} -o #{output.shellescape} #{input.shellescape} #{libs} 2>>#{log.shellescape}"
+      "#{ldshared} #{ENV['CFLAGS']} #{libs} -o #{output.shellescape} #{input.shellescape} 2>>#{log.shellescape}"
     end
     File.write(log, cmd + "\n")
     unless system(cmd)
@@ -24,7 +34,7 @@ Compiler.define :gcc do
     output
   end
 
-  private
+private
   def digest
     Digest::SHA1.hexdigest(@code + @libraries.to_s + @options.to_s)
   end
@@ -44,16 +54,17 @@ Compiler.define :gcc do
   end
 
   def ldshared
-    if RbConfig::CONFIG['target_os'] =~ /darwin/
-      "gcc -dynamic -bundle -fPIC #{options} #{ENV['LDFLAGS']}"
+    if RbConfig::CONFIG['target_os'] =~ /mswin|mingw/
+      "tcc -rdynamic -shared -fPIC #{options} #{ENV['LDFLAGS']}"
     else
-      "gcc -shared -fPIC #{options} #{ENV['LDFLAGS']}"
+      "tcc -shared #{options} #{ENV['LDFLAGS']}"
     end
   end
 
   def libs
     @libraries.map { |lib| "-l#{lib}".shellescape }.join(' ')
   end
+
 end
 
 end; end

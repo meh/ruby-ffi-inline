@@ -1,8 +1,8 @@
 $:.unshift(File.expand_path(File.join(File.dirname(__FILE__), '../lib')))
-require 'ffi/inliner'
+require 'ffi/inline'
 
 class Foo
-  extend FFI::Inliner
+  extend FFI::Inline
 
   inline 'void say_hello (char* name) { printf("Hello, %s\n", name); }'
 end
