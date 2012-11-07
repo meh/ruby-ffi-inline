@@ -258,20 +258,15 @@ EOC
       module Foo
         inline :cpp do |builder|
           builder.raw %{
-            #include <iostream>
-            #include <string>
-
-            using namespace std;
-
             class Greeter
             {
               public:
                 Greeter();
-                string say_hello();
+                const char *say_hello();
             };
 
             Greeter::Greeter () { };
-            string Greeter::say_hello ()
+            const char *Greeter::say_hello ()
             {
                 return "Hello foos!";
             };
@@ -281,7 +276,7 @@ EOC
             const char* say_hello () {
               Greeter greeter;
 
-              return greeter.say_hello().c_str();
+              return greeter.say_hello();
             }
           }, return: :string
         end
