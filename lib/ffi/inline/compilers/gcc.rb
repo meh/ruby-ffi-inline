@@ -3,7 +3,7 @@
 #                  Version 2, December 2004
 #
 #          DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
-# TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION 
+# TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 #
 # 0. You just DO WHAT THE FUCK YOU WANT TO.
 #++
@@ -40,17 +40,17 @@ private
   end
 
   def input
-    File.join(Inliner.directory, "#{digest}.c").tap {|path|
+    File.join(Inline.directory, "#{digest}.c").tap {|path|
       File.open(path, 'w') { |f| f.write(@code) } unless File.exists?(path)
     }
   end
 
   def output
-    File.join(Inliner.directory, "#{digest}.#{Compiler::Extension}")
+    File.join(Inline.directory, "#{digest}.#{Compiler::Extension}")
   end
 
   def log
-    File.join(Inliner.directory, "#{digest}.log")
+    File.join(Inline.directory, "#{digest}.log")
   end
 
   def ldshared
