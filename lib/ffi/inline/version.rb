@@ -11,7 +11,7 @@
 module FFI
 
 module Inline
-  VERSION = '0.0.4'
+  VERSION = '0.0.4.1'
 end
 
 end
