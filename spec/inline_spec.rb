@@ -1,9 +1,9 @@
-require 'ffi/inliner'
+require 'ffi/inline'
 
-describe FFI::Inliner do
+describe FFI::Inline do
   before do
     module Foo
-      extend FFI::Inliner
+      extend FFI::Inline
     end
   end
 
@@ -193,7 +193,7 @@ describe FFI::Inliner do
         :c, :pointer
       end
       module Foo
-        extend FFI::Inliner
+        extend FFI::Inline
         inline do |builder|
           builder.struct MyStruct
           builder.code.should == <<EOC
@@ -213,7 +213,7 @@ EOC
   it 'should return the current compiler' do
     module Foo
       inline do |builder|
-        builder.compiler.should == FFI::Inliner::Compiler[:gcc]
+        builder.compiler.should == FFI::Inline::Compiler[:gcc]
       end
     end
   end
