@@ -11,11 +11,13 @@ Compiler.define :gcc do
 
     return output if File.exists?(output)
 
-    unless system(if RbConfig::CONFIG['target_os'] =~ /mswin|mingw/
-      "sh -c '#{ldshared} #{ENV['CFLAGS']} -o #{output.shellescape} #{input.shellescape} #{libs}' 2>#{log.shellescape}"
+    cmd = if RbConfig::CONFIG['target_os'] =~ /mswin|mingw/
+      "sh -c '#{ldshared} #{ENV['CFLAGS']} -o #{output.shellescape} #{input.shellescape} #{libs}' 2>>#{log.shellescape}"
     else
-      "#{ldshared} #{ENV['CFLAGS']} -o #{output.shellescape} #{input.shellescape} #{libs} 2>#{log.shellescape}"
-    end)
+      "#{ldshared} #{ENV['CFLAGS']} -o #{output.shellescape} #{input.shellescape} #{libs} 2>>#{log.shellescape}"
+    end
+    File.write(log, cmd + "\n")
+    unless system(cmd)
       raise CompilationError.new(log)
     end
 
