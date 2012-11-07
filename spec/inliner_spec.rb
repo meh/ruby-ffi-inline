@@ -115,7 +115,7 @@ describe FFI::Inliner do
     end
     module Foo
       inline do |builder|
-        builder.map 'my_struct_t *' => 'pointer'
+        builder.map 'my_struct_t *' => :pointer
 
         builder.raw %q{
           typedef struct {
