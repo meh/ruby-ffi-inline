@@ -19,7 +19,7 @@ Compiler.define :gcc do
     @code      = code
     @libraries = libraries
 
-    return output if File.exists?(output)
+    return output if File.exist?(output)
 
     cmd = if RbConfig::CONFIG['target_os'] =~ /mswin|mingw/
       "sh -c '#{ldshared} #{ENV['CFLAGS']} -o #{output.shellescape} #{input.shellescape} #{libs}' 2>>#{log.shellescape}"
@@ -41,7 +41,7 @@ private
 
   def input
     File.join(Inline.directory, "#{digest}.c").tap {|path|
-      File.open(path, 'w') { |f| f.write(@code) } unless File.exists?(path)
+      File.open(path, 'w') { |f| f.write(@code) } unless File.exist?(path)
     }
   end
 

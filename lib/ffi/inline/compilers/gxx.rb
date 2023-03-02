@@ -17,7 +17,7 @@ Compiler.define Compiler[:gcc], :gxx, 'g++' do
 
 	def input
 		File.join(Inline.directory, "#{digest}.cpp").tap {|path|
-			File.open(path, 'w') { |f| f.write(@code) } unless File.exists?(path)
+			File.open(path, 'w') { |f| f.write(@code) } unless File.exist?(path)
 		}
 	end
 
