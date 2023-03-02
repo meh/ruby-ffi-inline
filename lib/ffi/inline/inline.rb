@@ -21,11 +21,11 @@ module Inline
 			@directory ||= File.expand_path(File.join(Dir.tmpdir, ".ffi-inline-#{Process.uid}"))
 		end
 
-		if File.exists?(@directory) && !File.directory?(@directory)
+		if File.exist?(@directory) && !File.directory?(@directory)
 			raise 'the FFI_INLINER_PATH exists and is not a directory'
 		end
 
-		if !File.exists?(@directory)
+		if !File.exist?(@directory)
 			FileUtils.mkdir(@directory)
 		end
 
